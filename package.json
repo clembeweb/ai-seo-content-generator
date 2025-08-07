@@ -1,0 +1,12 @@
+{
+  "name": "ai-generate-seo-content",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'nothing to build'",
+    "lint": "eslint assets/js/aigsc-admin.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
