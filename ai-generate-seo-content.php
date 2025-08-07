@@ -1,32 +1,33 @@
 <?php
 /**
  * Plugin Name: AI Generate SEO Content
- * Description: Un plugin per generare contenuti SEO con AI.
- * Version: 1.0
- * Author: Tuo Nome
+ * Description: Generate SEO content using OpenAI for URLs.
+ * Version: 2.0.0
+ * Author: Example Author
+ * Requires at least: 6.0
+ * Requires PHP: 8.1
+ * Text Domain: ai-generate-seo-content
  */
 
-// Previene accessi diretti
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Definisci il percorso base del plugin
-define('AIGSC_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define( 'AIGSC_FILE', __FILE__ );
 
-// Includi i file necessari
-require_once AIGSC_PLUGIN_DIR . 'includes/database.php';
-require_once AIGSC_PLUGIN_DIR . 'includes/url-list-handler.php';
-require_once AIGSC_PLUGIN_DIR . 'includes/seo-generator.php';
-require_once AIGSC_PLUGIN_DIR . 'includes/table-handler.php';
-require_once AIGSC_PLUGIN_DIR . 'includes/template-router.php'; // Nuovo file
-require_once AIGSC_PLUGIN_DIR . 'includes/business-info-handler.php'; // Nuovo file
+define( 'AIGSC_PATH', plugin_dir_path( __FILE__ ) );
 
-// Carica gli asset (CSS e JS)
-function aigsc_enqueue_assets() {
-    wp_enqueue_style('aigsc-style', plugin_dir_url(__FILE__) . 'assets/css/style.css', [], '1.0');
-    wp_enqueue_script('aigsc-script', plugin_dir_url(__FILE__) . 'assets/js/script.js', ['jquery'], '1.0', true);
+define( 'AIGSC_URL', plugin_dir_url( __FILE__ ) );
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use AiGSC\Plugin;
+
+function aigsc_bootstrap() : void {
+    $plugin = new Plugin();
+    $plugin->init();
 }
-add_action('wp_enqueue_scripts', 'aigsc_enqueue_assets');
+add_action( 'plugins_loaded', 'aigsc_bootstrap' );
 
-register_activation_hook(__FILE__, 'aigsc_activate');
+register_activation_hook( __FILE__, [ Plugin::class, 'activate' ] );
+register_deactivation_hook( __FILE__, [ Plugin::class, 'deactivate' ] );
